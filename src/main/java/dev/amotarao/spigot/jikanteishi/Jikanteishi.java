@@ -20,7 +20,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 public final class Jikanteishi extends JavaPlugin implements Listener {
     /** 時間停止を実行中かどうか */
