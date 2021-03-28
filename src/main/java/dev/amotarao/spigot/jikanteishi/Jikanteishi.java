@@ -2,10 +2,13 @@ package dev.amotarao.spigot.jikanteishi;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
@@ -53,19 +56,46 @@ public final class Jikanteishi extends JavaPlugin implements Listener {
     private void onPlayerInteract(PlayerInteractEvent e) {
         Player player = e.getPlayer();
         Action action = e.getAction();
+        ItemStack item = player.getInventory().getItemInMainHand();
 
         // 空気クリック以外中止
         if (!action.equals(Action.LEFT_CLICK_AIR) && !action.equals(Action.RIGHT_CLICK_AIR)) {
             return;
         }
 
-        ItemStack item = player.getInventory().getItemInMainHand();
-
         if (item.getType() == Material.CLOCK) {
             if (!active) {
                 start(player);
             } else {
                 stop();
+            }
+        }
+    }
+
+    /**
+     * プレイヤーによるEntityに対するクリックの実行
+     * 条件が合えば、時間停止対象の追加・削除
+     */
+    @EventHandler
+    private void onPlayerEntityInteract(PlayerInteractEntityEvent e) {
+        Player player = e.getPlayer();
+        Entity target = e.getRightClicked();
+        ItemStack item = player.getInventory().getItemInMainHand();
+
+        // プレイヤー以外中止
+        if (target.getType() != EntityType.PLAYER) {
+            return;
+        }
+
+        String targetUuid = ((Player) target).getUniqueId().toString();
+
+        if (item.getType() == Material.STICK) {
+            int index = members.indexOf(targetUuid);
+
+            if (index < 0) {
+                members.add(targetUuid);
+            } else {
+                members.remove(index);
             }
         }
     }
