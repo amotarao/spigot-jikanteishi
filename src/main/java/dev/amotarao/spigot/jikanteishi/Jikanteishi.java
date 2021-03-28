@@ -21,7 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Jikanteishi extends JavaPlugin implements Listener {
+public final class Jikanteishi extends JavaPlugin {
     /** 時間停止を実行中かどうか */
     Boolean active = false;
 
@@ -30,7 +30,7 @@ public final class Jikanteishi extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        getServer().getPluginManager().registerEvents(this, this);
+        getServer().getPluginManager().registerEvents(new PlayerEventListener(), this);
     }
 
     @Override
@@ -73,82 +73,84 @@ public final class Jikanteishi extends JavaPlugin implements Listener {
         }
     }
 
-    /**
-     * プレイヤーによるクリックの実行
-     * 条件が合えば、時間停止開始・終了
-     */
-    @EventHandler
-    private void onPlayerInteract(PlayerInteractEvent e) {
-        Player player = e.getPlayer();
-        Action action = e.getAction();
-        ItemStack item = player.getInventory().getItemInMainHand();
+    private class PlayerEventListener implements Listener {
+        /**
+         * プレイヤーによるクリックの実行
+         * 条件が合えば、時間停止開始・終了
+         */
+        @EventHandler
+        private void onPlayerInteract(PlayerInteractEvent e) {
+            Player player = e.getPlayer();
+            Action action = e.getAction();
+            ItemStack item = player.getInventory().getItemInMainHand();
 
-        // 空気クリック以外中止
-        if (!action.equals(Action.LEFT_CLICK_AIR) && !action.equals(Action.RIGHT_CLICK_AIR)) {
-            return;
-        }
+            // 空気クリック以外中止
+            if (!action.equals(Action.LEFT_CLICK_AIR) && !action.equals(Action.RIGHT_CLICK_AIR)) {
+                return;
+            }
 
-        if (item.getType() == Material.CLOCK) {
-            if (!active) {
-                start(player);
-            } else {
-                stop(player);
+            if (item.getType() == Material.CLOCK) {
+                if (!active) {
+                    start(player);
+                } else {
+                    stop(player);
+                }
             }
         }
-    }
 
-    /**
-     * プレイヤーによるEntityに対するクリックの実行
-     * 条件が合えば、時間停止対象の追加・削除
-     */
-    @EventHandler
-    private void onPlayerEntityInteract(PlayerInteractEntityEvent e) {
-        Player player = e.getPlayer();
-        Entity target = e.getRightClicked();
-        ItemStack item = player.getInventory().getItemInMainHand();
+        /**
+         * プレイヤーによるEntityに対するクリックの実行
+         * 条件が合えば、時間停止対象の追加・削除
+         */
+        @EventHandler
+        private void onPlayerEntityInteract(PlayerInteractEntityEvent e) {
+            Player player = e.getPlayer();
+            Entity target = e.getRightClicked();
+            ItemStack item = player.getInventory().getItemInMainHand();
 
-        // プレイヤー以外中止
-        if (target.getType() != EntityType.PLAYER) {
-            return;
-        }
+            // プレイヤー以外中止
+            if (target.getType() != EntityType.PLAYER) {
+                return;
+            }
 
-        Player targetPlayer = (Player) target;
-        String targetUuid = targetPlayer.getUniqueId().toString();
+            Player targetPlayer = (Player) target;
+            String targetUuid = targetPlayer.getUniqueId().toString();
 
-        if (item.getType() == Material.STICK) {
-            int index = members.indexOf(targetUuid);
+            if (item.getType() == Material.STICK) {
+                int index = members.indexOf(targetUuid);
 
-            spawnParticleForPlayer(player.getWorld(), targetPlayer);
+                spawnParticleForPlayer(player.getWorld(), targetPlayer);
 
-            if (index < 0) {
-                members.add(targetUuid);
-            } else {
-                members.remove(index);
+                if (index < 0) {
+                    members.add(targetUuid);
+                } else {
+                    members.remove(index);
+                }
             }
         }
-    }
 
-    /**
-     * プレイヤーの移動
-     */
-    @EventHandler
-    private void onPlayerMove(PlayerMoveEvent e) {
-        Player player = e.getPlayer();
-        String uuid = player.getUniqueId().toString();
-        if (active && members.indexOf(uuid) < 0) {
-            e.setCancelled(true);
+        /**
+         * プレイヤーの移動
+         */
+        @EventHandler
+        private void onPlayerMove(PlayerMoveEvent e) {
+            Player player = e.getPlayer();
+            String uuid = player.getUniqueId().toString();
+            if (active && members.indexOf(uuid) < 0) {
+                e.setCancelled(true);
+            }
         }
-    }
 
-    /**
-     * プレイヤーのスニーク
-     */
-    @EventHandler
-    private void onPlayerToggleSneak(PlayerToggleSneakEvent e) {
-        Player player = e.getPlayer();
-        String uuid = player.getUniqueId().toString();
-        if (active && members.indexOf(uuid) < 0) {
-            e.setCancelled(true);
+        /**
+         * プレイヤーのスニーク
+         */
+        @EventHandler
+        private void onPlayerToggleSneak(PlayerToggleSneakEvent e) {
+            Player player = e.getPlayer();
+            String uuid = player.getUniqueId().toString();
+            if (active && members.indexOf(uuid) < 0) {
+                e.setCancelled(true);
+            }
         }
     }
 }
