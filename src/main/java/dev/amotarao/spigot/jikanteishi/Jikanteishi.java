@@ -139,7 +139,6 @@ public final class Jikanteishi extends JavaPlugin implements Listener {
         if (active && members.indexOf(uuid) < 0) {
             e.setCancelled(true);
         }
-        getLogger().log(Level.INFO, "PlayerMoveEvent: " + player.getName());
     }
 
     /**
@@ -152,6 +151,5 @@ public final class Jikanteishi extends JavaPlugin implements Listener {
         if (active && members.indexOf(uuid) < 0) {
             e.setCancelled(true);
         }
-        getLogger().log(Level.INFO, "PlayerToggleSneakEvent: " + player.getName());
     }
 }
