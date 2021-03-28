@@ -1,7 +1,10 @@
 package dev.amotarao.spigot.jikanteishi;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -38,6 +41,8 @@ public final class Jikanteishi extends JavaPlugin implements Listener {
 
     private void start(Player player) {
         members.add(player.getUniqueId().toString());
+        World world = player.getWorld();
+        spawnParticleForPlayers(world, world.getPlayers());
         active = true;
         Bukkit.broadcastMessage("start");
     }
@@ -46,6 +51,27 @@ public final class Jikanteishi extends JavaPlugin implements Listener {
         members.clear();
         active = false;
         Bukkit.broadcastMessage("stop");
+    }
+
+    private void stop(Player player) {
+        World world = player.getWorld();
+        spawnParticleForPlayers(world, world.getPlayers());
+        stop();
+    }
+
+    private void spawnParticleForPlayer(World world, Player player) {
+        if (members.indexOf(player.getUniqueId().toString()) >= 0) {
+            return;
+        }
+        Location location = player.getLocation();
+        location.setY(location.getY() + 1);
+        world.spawnParticle(Particle.SPELL_INSTANT, location, 20, 0, 0, 0, 0.05);
+    }
+
+    private void spawnParticleForPlayers(World world, List<Player> players) {
+        for (Player player : players) {
+            spawnParticleForPlayer(world, player);
+        }
     }
 
     /**
@@ -67,7 +93,7 @@ public final class Jikanteishi extends JavaPlugin implements Listener {
             if (!active) {
                 start(player);
             } else {
-                stop();
+                stop(player);
             }
         }
     }
@@ -87,10 +113,13 @@ public final class Jikanteishi extends JavaPlugin implements Listener {
             return;
         }
 
-        String targetUuid = ((Player) target).getUniqueId().toString();
+        Player targetPlayer = (Player) target;
+        String targetUuid = targetPlayer.getUniqueId().toString();
 
         if (item.getType() == Material.STICK) {
             int index = members.indexOf(targetUuid);
+
+            spawnParticleForPlayer(player.getWorld(), targetPlayer);
 
             if (index < 0) {
                 members.add(targetUuid);
