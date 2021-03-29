@@ -60,6 +60,9 @@ public final class Jikanteishi extends JavaPlugin {
         stop();
     }
 
+    /**
+     * パーティクル発生
+     */
     protected void spawnParticleForPlayer(World world, Player player) {
         if (members.indexOf(player.getUniqueId().toString()) >= 0) {
             return;
@@ -69,6 +72,9 @@ public final class Jikanteishi extends JavaPlugin {
         world.spawnParticle(Particle.SPELL_INSTANT, location, 20, 0, 0, 0, 0.05);
     }
 
+    /**
+     * 複数プレイヤーにパーティクル発生
+     */
     protected void spawnParticleForPlayers(World world, List<Player> players) {
         for (Player player : players) {
             spawnParticleForPlayer(world, player);
