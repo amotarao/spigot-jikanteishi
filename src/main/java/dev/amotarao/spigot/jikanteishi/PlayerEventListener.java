@@ -124,20 +124,24 @@ public class PlayerEventListener implements Listener {
             this.player = player;
         }
 
+        /** フラグ追加 */
         private void addFlag() {
             player.setMetadata(eventName, new FixedMetadataValue(plugin, true));
             player.removeMetadata(eventName, plugin);
         }
 
+        /** フラグ削除 */
         private void removeFlag() {
             player.removeMetadata(eventName, plugin);
         }
 
+        /** アクティブ状態にセット */
         public void setActive() {
             addFlag();
             new Runnable().runTaskLater(plugin, 1);
         }
 
+        /** アクティブ状態を取得 */
         public boolean isActive() {
             try {
                 return (boolean) player.getMetadata(eventName).get(0).value();
