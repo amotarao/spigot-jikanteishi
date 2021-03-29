@@ -2,7 +2,6 @@ package dev.amotarao.spigot.jikanteishi;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -16,10 +15,14 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import dev.amotarao.spigot.jikanteishi.item.Item;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 public final class Jikanteishi extends JavaPlugin {
     /** 時間停止を実行中かどうか */
@@ -31,6 +34,15 @@ public final class Jikanteishi extends JavaPlugin {
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(new PlayerEventListener(), this);
+
+        for (Recipe recipe : Item.getRecipes(this)) {
+            Bukkit.addRecipe(recipe);
+        }
+        getLogger().log(Level.INFO, String.valueOf(Bukkit.getWorlds().size()));
+
+        for (World world : Bukkit.getWorlds()) {
+            getLogger().log(Level.INFO, world.getEnvironment().toString());
+        }
     }
 
     @Override
@@ -89,7 +101,7 @@ public final class Jikanteishi extends JavaPlugin {
                 return;
             }
 
-            if (item.getType() == Material.CLOCK) {
+            if (Item.isClock(item)) {
                 if (!active) {
                     start(player);
                 } else {
@@ -116,7 +128,7 @@ public final class Jikanteishi extends JavaPlugin {
             Player targetPlayer = (Player) target;
             String targetUuid = targetPlayer.getUniqueId().toString();
 
-            if (item.getType() == Material.STICK) {
+            if (Item.isStick(item)) {
                 int index = members.indexOf(targetUuid);
 
                 spawnParticleForPlayer(player.getWorld(), targetPlayer);
