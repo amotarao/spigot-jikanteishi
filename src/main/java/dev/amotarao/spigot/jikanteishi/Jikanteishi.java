@@ -12,6 +12,7 @@ import dev.amotarao.spigot.jikanteishi.item.Item;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 
 public final class Jikanteishi extends JavaPlugin {
@@ -19,7 +20,7 @@ public final class Jikanteishi extends JavaPlugin {
     protected Boolean enabled = false;
 
     /** 停止しないメンバーリスト */
-    protected List<String> ignorePlayers = new ArrayList<>();
+    protected List<UUID> ignorePlayers = new ArrayList<>();
 
     @Override
     public void onEnable() {
@@ -41,7 +42,7 @@ public final class Jikanteishi extends JavaPlugin {
     }
 
     protected void start(Player player) {
-        ignorePlayers.add(player.getUniqueId().toString());
+        ignorePlayers.add(player.getUniqueId());
         World world = player.getWorld();
         spawnParticleForPlayers(world, world.getPlayers());
         enabled = true;
@@ -64,7 +65,7 @@ public final class Jikanteishi extends JavaPlugin {
      * パーティクル発生
      */
     protected void spawnParticleForPlayer(World world, Player player) {
-        if (ignorePlayers.indexOf(player.getUniqueId().toString()) >= 0) {
+        if (ignorePlayers.indexOf(player.getUniqueId()) >= 0) {
             return;
         }
         Location location = player.getLocation();

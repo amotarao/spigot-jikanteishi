@@ -1,5 +1,7 @@
 package dev.amotarao.spigot.jikanteishi;
 
+import java.util.UUID;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -61,7 +63,7 @@ public class PlayerEventListener implements Listener {
         }
 
         Player targetPlayer = (Player) target;
-        String targetUuid = targetPlayer.getUniqueId().toString();
+        UUID targetUuid = targetPlayer.getUniqueId();
 
         if (Item.isStick(item)) {
             int index = plugin.ignorePlayers.indexOf(targetUuid);
@@ -82,8 +84,7 @@ public class PlayerEventListener implements Listener {
     @EventHandler
     private void onPlayerMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
-        String uuid = player.getUniqueId().toString();
-        if (plugin.enabled && plugin.ignorePlayers.indexOf(uuid) < 0) {
+        if (plugin.enabled && plugin.ignorePlayers.indexOf(player.getUniqueId()) < 0) {
             e.setCancelled(true);
         }
     }
@@ -94,8 +95,7 @@ public class PlayerEventListener implements Listener {
     @EventHandler
     private void onPlayerToggleSneak(PlayerToggleSneakEvent e) {
         Player player = e.getPlayer();
-        String uuid = player.getUniqueId().toString();
-        if (plugin.enabled && plugin.ignorePlayers.indexOf(uuid) < 0) {
+        if (plugin.enabled && plugin.ignorePlayers.indexOf(player.getUniqueId()) < 0) {
             e.setCancelled(true);
         }
     }
