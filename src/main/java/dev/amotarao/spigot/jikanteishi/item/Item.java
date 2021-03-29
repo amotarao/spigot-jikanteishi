@@ -12,8 +12,6 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
-import net.md_5.bungee.api.ChatColor;
-
 public class Item {
     static public List<Recipe> getRecipes(Plugin plugin) {
         List<Recipe> recipes = new ArrayList<>();
@@ -22,8 +20,7 @@ public class Item {
         return recipes;
     }
 
-    // ToDo: 文字化けを回避する
-    static final private String ClockName = ChatColor.DARK_AQUA + "\u00A7k*\u00A7rSTOP\u00A7k*\u00A7r " + ChatColor.YELLOW + "時計";
+    static final private String ClockName = "§b§k*§r§bSTOP§k*§r §e時計";
 
     static final private ItemStack getClockItem() {
         ItemStack item = new ItemStack(Material.CLOCK);
@@ -53,8 +50,7 @@ public class Item {
         return item.getType() == Material.CLOCK && meta.getDisplayName().equals(ClockName);
     }
 
-    // ToDo: 文字化けを回避する
-    static final private String StickName = ChatColor.YELLOW + "切り替え棒";
+    static final private String StickName = "§e切り替え棒";
 
     static final private ItemStack getStickItem() {
         ItemStack item = new ItemStack(Material.STICK);
