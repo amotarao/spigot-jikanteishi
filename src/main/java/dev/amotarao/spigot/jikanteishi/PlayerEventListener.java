@@ -32,15 +32,16 @@ public class PlayerEventListener implements Listener {
         Player player = e.getPlayer();
         RunFlag flag = new RunFlag("PlayerInteractEvent", player);
 
+        if (flag.isActive()) {
+            return;
+        }
+        flag.setActive();
+
         Action action = e.getAction();
         ItemStack item = player.getInventory().getItemInMainHand();
 
         // 空気クリック以外中止
         if (!action.equals(Action.LEFT_CLICK_AIR) && !action.equals(Action.RIGHT_CLICK_AIR)) {
-            return;
-        }
-
-        if (flag.isActive()) {
             return;
         }
 
@@ -50,8 +51,6 @@ public class PlayerEventListener implements Listener {
             } else {
                 plugin.stop(player);
             }
-
-            flag.setActive();
         }
     }
 
@@ -64,15 +63,16 @@ public class PlayerEventListener implements Listener {
         Player player = e.getPlayer();
         RunFlag flag = new RunFlag("PlayerInteractEntityEvent", player);
 
+        if (flag.isActive()) {
+            return;
+        }
+        flag.setActive();
+
         Entity target = e.getRightClicked();
         ItemStack item = player.getInventory().getItemInMainHand();
 
         // プレイヤー以外中止
         if (target.getType() != EntityType.PLAYER) {
-            return;
-        }
-
-        if (flag.isActive()) {
             return;
         }
 
@@ -88,8 +88,6 @@ public class PlayerEventListener implements Listener {
             } else {
                 plugin.removeIgnoringPlayer(targetPlayer);
             }
-
-            flag.setActive();
         }
     }
 
@@ -127,7 +125,6 @@ public class PlayerEventListener implements Listener {
         /** フラグ追加 */
         private void addFlag() {
             player.setMetadata(eventName, new FixedMetadataValue(plugin, true));
-            player.removeMetadata(eventName, plugin);
         }
 
         /** フラグ削除 */
