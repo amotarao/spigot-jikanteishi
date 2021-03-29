@@ -20,7 +20,7 @@ public class Item {
         return recipes;
     }
 
-    static final private String ClockName = "§b§k*§r§bSTOP§k*§r §e時計";
+    static final private String ClockName = "§b§k*§bSTOP§b§k*§r §e時計";
 
     static final private ItemStack getClockItem() {
         ItemStack item = new ItemStack(Material.CLOCK);
