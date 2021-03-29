@@ -1,6 +1,5 @@
 package dev.amotarao.spigot.jikanteishi.item;
 
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
