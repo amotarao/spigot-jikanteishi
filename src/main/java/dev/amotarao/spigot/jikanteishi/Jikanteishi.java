@@ -16,10 +16,10 @@ import java.util.logging.Level;
 
 public final class Jikanteishi extends JavaPlugin {
     /** 時間停止を実行中かどうか */
-    protected Boolean active = false;
+    protected Boolean enabled = false;
 
     /** 停止しないメンバーリスト */
-    protected List<String> members = new ArrayList<>();
+    protected List<String> ignorePlayers = new ArrayList<>();
 
     @Override
     public void onEnable() {
@@ -41,16 +41,16 @@ public final class Jikanteishi extends JavaPlugin {
     }
 
     protected void start(Player player) {
-        members.add(player.getUniqueId().toString());
+        ignorePlayers.add(player.getUniqueId().toString());
         World world = player.getWorld();
         spawnParticleForPlayers(world, world.getPlayers());
-        active = true;
+        enabled = true;
         Bukkit.broadcastMessage("start");
     }
 
     protected void stop() {
-        members.clear();
-        active = false;
+        ignorePlayers.clear();
+        enabled = false;
         Bukkit.broadcastMessage("stop");
     }
 
@@ -64,7 +64,7 @@ public final class Jikanteishi extends JavaPlugin {
      * パーティクル発生
      */
     protected void spawnParticleForPlayer(World world, Player player) {
-        if (members.indexOf(player.getUniqueId().toString()) >= 0) {
+        if (ignorePlayers.indexOf(player.getUniqueId().toString()) >= 0) {
             return;
         }
         Location location = player.getLocation();

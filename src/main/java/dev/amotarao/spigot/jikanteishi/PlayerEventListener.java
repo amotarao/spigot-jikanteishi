@@ -37,7 +37,7 @@ public class PlayerEventListener implements Listener {
         }
 
         if (Item.isClock(item)) {
-            if (!plugin.active) {
+            if (!plugin.enabled) {
                 plugin.start(player);
             } else {
                 plugin.stop(player);
@@ -64,14 +64,14 @@ public class PlayerEventListener implements Listener {
         String targetUuid = targetPlayer.getUniqueId().toString();
 
         if (Item.isStick(item)) {
-            int index = plugin.members.indexOf(targetUuid);
+            int index = plugin.ignorePlayers.indexOf(targetUuid);
 
             plugin.spawnParticleForPlayer(player.getWorld(), targetPlayer);
 
             if (index < 0) {
-                plugin.members.add(targetUuid);
+                plugin.ignorePlayers.add(targetUuid);
             } else {
-                plugin.members.remove(index);
+                plugin.ignorePlayers.remove(index);
             }
         }
     }
@@ -83,7 +83,7 @@ public class PlayerEventListener implements Listener {
     private void onPlayerMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
         String uuid = player.getUniqueId().toString();
-        if (plugin.active && plugin.members.indexOf(uuid) < 0) {
+        if (plugin.enabled && plugin.ignorePlayers.indexOf(uuid) < 0) {
             e.setCancelled(true);
         }
     }
@@ -95,7 +95,7 @@ public class PlayerEventListener implements Listener {
     private void onPlayerToggleSneak(PlayerToggleSneakEvent e) {
         Player player = e.getPlayer();
         String uuid = player.getUniqueId().toString();
-        if (plugin.active && plugin.members.indexOf(uuid) < 0) {
+        if (plugin.enabled && plugin.ignorePlayers.indexOf(uuid) < 0) {
             e.setCancelled(true);
         }
     }
