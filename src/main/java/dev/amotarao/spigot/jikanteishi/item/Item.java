@@ -20,7 +20,6 @@ public class Item {
         return recipes;
     }
 
-    // ToDo: 文字化けを回避する
     static final private String ClockName = "§b§k*§r§bSTOP§k*§r §e時計";
 
     static final private ItemStack getClockItem() {
@@ -51,7 +50,6 @@ public class Item {
         return item.getType() == Material.CLOCK && meta.getDisplayName().equals(ClockName);
     }
 
-    // ToDo: 文字化けを回避する
     static final private String StickName = "§e切り替え棒";
 
     static final private ItemStack getStickItem() {
