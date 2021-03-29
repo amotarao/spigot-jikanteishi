@@ -22,6 +22,7 @@ public class Item {
         return recipes;
     }
 
+    // ToDo: 文字化けを回避する
     static final private String ClockName = ChatColor.DARK_AQUA + "\u00A7k*\u00A7rSTOP\u00A7k*\u00A7r " + ChatColor.YELLOW + "時計";
 
     static final private ItemStack getClockItem() {
@@ -52,6 +53,7 @@ public class Item {
         return item.getType() == Material.CLOCK && meta.getDisplayName().equals(ClockName);
     }
 
+    // ToDo: 文字化けを回避する
     static final private String StickName = ChatColor.YELLOW + "切り替え棒";
 
     static final private ItemStack getStickItem() {
