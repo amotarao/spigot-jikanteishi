@@ -127,7 +127,6 @@ public class PlayerEventListener implements Listener {
         /** フラグ追加 */
         private void addFlag() {
             player.setMetadata(eventName, new FixedMetadataValue(plugin, true));
-            player.removeMetadata(eventName, plugin);
         }
 
         /** フラグ削除 */
