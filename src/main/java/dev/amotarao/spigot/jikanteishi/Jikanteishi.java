@@ -19,8 +19,8 @@ public final class Jikanteishi extends JavaPlugin {
     /** 時間停止を実行中かどうか */
     protected Boolean enabled = false;
 
-    /** 停止しないメンバーリスト */
-    protected List<UUID> ignorePlayers = new ArrayList<>();
+    /** 停止しないプレイヤーリスト */
+    private List<UUID> ignoringPlayers = new ArrayList<>();
 
     @Override
     public void onEnable() {
@@ -42,15 +42,19 @@ public final class Jikanteishi extends JavaPlugin {
     }
 
     protected void start(Player player) {
-        ignorePlayers.add(player.getUniqueId());
+        resetIgnoringPlayer();
+        addIgnoringPlayer(player);
+
         World world = player.getWorld();
         spawnParticleForPlayers(world, world.getPlayers());
+
         enabled = true;
         Bukkit.broadcastMessage("start");
     }
 
     protected void stop() {
-        ignorePlayers.clear();
+        resetIgnoringPlayer();
+
         enabled = false;
         Bukkit.broadcastMessage("stop");
     }
@@ -58,6 +62,7 @@ public final class Jikanteishi extends JavaPlugin {
     protected void stop(Player player) {
         World world = player.getWorld();
         spawnParticleForPlayers(world, world.getPlayers());
+
         stop();
     }
 
@@ -65,7 +70,7 @@ public final class Jikanteishi extends JavaPlugin {
      * パーティクル発生
      */
     protected void spawnParticleForPlayer(World world, Player player) {
-        if (ignorePlayers.indexOf(player.getUniqueId()) >= 0) {
+        if (ignoringPlayers.indexOf(player.getUniqueId()) >= 0) {
             return;
         }
         Location location = player.getLocation();
@@ -80,5 +85,39 @@ public final class Jikanteishi extends JavaPlugin {
         for (Player player : players) {
             spawnParticleForPlayer(world, player);
         }
+    }
+
+    /**
+     * 除外プレイヤー判定
+     */
+    protected boolean isIgnoringPlayer(Player player) {
+        return ignoringPlayers.indexOf(player.getUniqueId()) >= 0;
+    }
+
+    /**
+     * 除外プレイヤー追加
+     */
+    protected void addIgnoringPlayer(Player player) {
+        boolean ignoring = isIgnoringPlayer(player);
+        if (!ignoring) {
+            ignoringPlayers.add(player.getUniqueId());
+        }
+    }
+
+    /**
+     * 除外プレイヤー削除
+     */
+    protected void removeIgnoringPlayer(Player player) {
+        boolean ignoring = isIgnoringPlayer(player);
+        if (ignoring) {
+            ignoringPlayers.remove(player.getUniqueId());
+        }
+    }
+
+    /**
+     * 除外プレイヤーリセット
+     */
+    protected void resetIgnoringPlayer() {
+        ignoringPlayers.clear();
     }
 }

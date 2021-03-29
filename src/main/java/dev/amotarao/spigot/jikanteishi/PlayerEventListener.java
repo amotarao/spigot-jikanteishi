@@ -1,7 +1,5 @@
 package dev.amotarao.spigot.jikanteishi;
 
-import java.util.UUID;
-
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -63,17 +61,16 @@ public class PlayerEventListener implements Listener {
         }
 
         Player targetPlayer = (Player) target;
-        UUID targetUuid = targetPlayer.getUniqueId();
 
         if (Item.isStick(item)) {
-            int index = plugin.ignorePlayers.indexOf(targetUuid);
+            boolean ignoring = plugin.isIgnoringPlayer(targetPlayer);
 
             plugin.spawnParticleForPlayer(player.getWorld(), targetPlayer);
 
-            if (index < 0) {
-                plugin.ignorePlayers.add(targetUuid);
+            if (!ignoring) {
+                plugin.addIgnoringPlayer(targetPlayer);
             } else {
-                plugin.ignorePlayers.remove(index);
+                plugin.removeIgnoringPlayer(targetPlayer);
             }
         }
     }
@@ -84,7 +81,7 @@ public class PlayerEventListener implements Listener {
     @EventHandler
     private void onPlayerMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
-        if (plugin.enabled && plugin.ignorePlayers.indexOf(player.getUniqueId()) < 0) {
+        if (plugin.enabled && !plugin.isIgnoringPlayer(player)) {
             e.setCancelled(true);
         }
     }
@@ -95,7 +92,7 @@ public class PlayerEventListener implements Listener {
     @EventHandler
     private void onPlayerToggleSneak(PlayerToggleSneakEvent e) {
         Player player = e.getPlayer();
-        if (plugin.enabled && plugin.ignorePlayers.indexOf(player.getUniqueId()) < 0) {
+        if (plugin.enabled && !plugin.isIgnoringPlayer(player)) {
             e.setCancelled(true);
         }
     }
