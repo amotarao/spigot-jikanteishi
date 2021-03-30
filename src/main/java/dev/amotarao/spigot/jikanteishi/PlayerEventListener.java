@@ -46,11 +46,7 @@ public class PlayerEventListener implements Listener {
         }
 
         if (Item.isClock(item)) {
-            if (!plugin.enabled) {
-                plugin.start(player);
-            } else {
-                plugin.stop(player);
-            }
+            plugin.game.switchGame(player);
         }
     }
 
@@ -76,18 +72,8 @@ public class PlayerEventListener implements Listener {
             return;
         }
 
-        Player targetPlayer = (Player) target;
-
         if (Item.isStick(item)) {
-            boolean ignoring = plugin.isIgnoringPlayer(targetPlayer);
-
-            plugin.spawnParticleForPlayer(player.getWorld(), targetPlayer);
-
-            if (!ignoring) {
-                plugin.addIgnoringPlayer(targetPlayer);
-            } else {
-                plugin.removeIgnoringPlayer(targetPlayer);
-            }
+            plugin.game.togglePlayer((Player) target);
         }
     }
 
@@ -97,7 +83,7 @@ public class PlayerEventListener implements Listener {
     @EventHandler
     private void onPlayerMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
-        if (plugin.enabled && !plugin.isIgnoringPlayer(player)) {
+        if (plugin.game.isStoppingPlayer(player)) {
             e.setCancelled(true);
         }
     }
@@ -108,7 +94,7 @@ public class PlayerEventListener implements Listener {
     @EventHandler
     private void onPlayerToggleSneak(PlayerToggleSneakEvent e) {
         Player player = e.getPlayer();
-        if (plugin.enabled && !plugin.isIgnoringPlayer(player)) {
+        if (plugin.game.isStoppingPlayer(player)) {
             e.setCancelled(true);
         }
     }
