@@ -9,7 +9,7 @@ tasks.withType(JavaCompile) {
 }
 
 group = 'dev.amotarao.spigot'
-version = '1.16-0.1.0'
+version = '1.12-0.0.0'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
@@ -27,7 +27,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
 }
 
 processResources {
