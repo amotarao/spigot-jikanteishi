@@ -40,6 +40,10 @@ public class PlayerEventListener implements Listener {
         Action action = e.getAction();
         ItemStack item = player.getInventory().getItemInMainHand();
 
+        if (plugin.game.isStoppingPlayer(player)) {
+            e.setCancelled(true);
+        }
+
         // 空気クリック以外中止
         if (!action.equals(Action.LEFT_CLICK_AIR) && !action.equals(Action.RIGHT_CLICK_AIR)) {
             return;
@@ -66,6 +70,10 @@ public class PlayerEventListener implements Listener {
 
         Entity target = e.getRightClicked();
         ItemStack item = player.getInventory().getItemInMainHand();
+
+        if (plugin.game.isStoppingPlayer(player)) {
+            e.setCancelled(true);
+        }
 
         // プレイヤー以外中止
         if (target.getType() != EntityType.PLAYER) {
