@@ -50,7 +50,7 @@ public class GameModel {
     }
 
     public void startGame(Player player) {
-        if (!enabled) {
+        if (enabled) {
             return;
         }
         _startGame(player);
@@ -73,7 +73,7 @@ public class GameModel {
     }
 
     public void stopGame() {
-        if (enabled) {
+        if (!enabled) {
             return;
         }
         _stopGame();
@@ -81,7 +81,7 @@ public class GameModel {
     }
 
     public void stopGame(Player player) {
-        if (enabled) {
+        if (!enabled) {
             return;
         }
         _stopGame();
