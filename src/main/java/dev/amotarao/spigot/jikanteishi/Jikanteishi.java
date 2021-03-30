@@ -29,11 +29,6 @@ public final class Jikanteishi extends JavaPlugin {
         for (Recipe recipe : Item.getRecipes(this)) {
             Bukkit.addRecipe(recipe);
         }
-        getLogger().log(Level.INFO, String.valueOf(Bukkit.getWorlds().size()));
-
-        for (World world : Bukkit.getWorlds()) {
-            getLogger().log(Level.INFO, world.getEnvironment().toString());
-        }
     }
 
     @Override
