@@ -44,7 +44,7 @@ public final class Jikanteishi extends JavaPlugin {
         spawnParticleForPlayers(world, world.getPlayers());
 
         enabled = true;
-        getLogger().log(Level.INFO, "Start jikanteishi by" + player.getDisplayName());
+        getLogger().log(Level.INFO, "Start jikanteishi by " + player.getDisplayName());
         player.sendTitle("§c§k＊§c 停止 §k＊", "", 0, 30, 10);
     }
 
@@ -59,7 +59,7 @@ public final class Jikanteishi extends JavaPlugin {
         spawnParticleForPlayers(world, world.getPlayers());
 
         stop();
-        getLogger().log(Level.INFO, "Stop jikanteishi by" + player.getDisplayName());
+        getLogger().log(Level.INFO, "Stop jikanteishi by " + player.getDisplayName());
         player.sendTitle("§b解除", "", 0, 30, 10);
     }
 
