@@ -20,7 +20,7 @@ public class Item {
         return recipes;
     }
 
-    static final private String ClockName = "§b§k*§bSTOP§b§k*§r §e時計";
+    static final private String ClockName = "§c§k*§c時間停止§c§k*§r §eストップウォッチ";
 
     static final private ItemStack getClockItem() {
         ItemStack item = new ItemStack(Material.CLOCK);
@@ -50,7 +50,7 @@ public class Item {
         return item.getType() == Material.CLOCK && meta.getDisplayName().equals(ClockName);
     }
 
-    static final private String StickName = "§e切り替え棒";
+    static final private String StickName = "§e時間停止切り替え棒";
 
     static final private ItemStack getStickItem() {
         ItemStack item = new ItemStack(Material.STICK);
