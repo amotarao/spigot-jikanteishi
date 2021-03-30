@@ -23,7 +23,7 @@ public class Item {
     static final private String ClockName = "§c§k*§c時間停止§c§k*§r §eストップウォッチ";
 
     static final private ItemStack getClockItem() {
-        ItemStack item = new ItemStack(Material.CLOCK);
+        ItemStack item = new ItemStack(Material.WATCH);
         ItemMeta meta = item.getItemMeta();
 
         meta.setDisplayName(ClockName);
@@ -40,14 +40,14 @@ public class Item {
 
         recipe.shape(" S ", "SCS", " S ");
         recipe.setIngredient('S', Material.NETHER_STAR);
-        recipe.setIngredient('C', Material.CLOCK);
+        recipe.setIngredient('C', Material.WATCH);
 
         return recipe;
     }
 
     static final public Boolean isClock(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
-        return item.getType() == Material.CLOCK && meta.getDisplayName().equals(ClockName);
+        return item.getType() == Material.WATCH && meta.getDisplayName().equals(ClockName);
     }
 
     static final private String StickName = "§e時間停止切り替え棒";
@@ -69,7 +69,7 @@ public class Item {
         ShapedRecipe recipe = new ShapedRecipe(key, item);
 
         recipe.shape("C", "S");
-        recipe.setIngredient('C', Material.CLOCK);
+        recipe.setIngredient('C', Material.WATCH);
         recipe.setIngredient('S', Material.STICK);
 
         return recipe;
