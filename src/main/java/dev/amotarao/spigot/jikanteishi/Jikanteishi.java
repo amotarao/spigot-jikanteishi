@@ -29,11 +29,6 @@ public final class Jikanteishi extends JavaPlugin {
         for (Recipe recipe : Item.getRecipes(this)) {
             Bukkit.addRecipe(recipe);
         }
-        getLogger().log(Level.INFO, String.valueOf(Bukkit.getWorlds().size()));
-
-        for (World world : Bukkit.getWorlds()) {
-            getLogger().log(Level.INFO, world.getEnvironment().toString());
-        }
     }
 
     @Override
@@ -49,14 +44,14 @@ public final class Jikanteishi extends JavaPlugin {
         spawnParticleForPlayers(world, world.getPlayers());
 
         enabled = true;
-        Bukkit.broadcastMessage("start");
+        getLogger().log(Level.INFO, "Start jikanteishi by " + player.getDisplayName());
+        player.sendTitle("§c§k＊§c 停止 §k＊", "", 0, 30, 10);
     }
 
     protected void stop() {
         resetIgnoringPlayer();
 
         enabled = false;
-        Bukkit.broadcastMessage("stop");
     }
 
     protected void stop(Player player) {
@@ -64,6 +59,8 @@ public final class Jikanteishi extends JavaPlugin {
         spawnParticleForPlayers(world, world.getPlayers());
 
         stop();
+        getLogger().log(Level.INFO, "Stop jikanteishi by " + player.getDisplayName());
+        player.sendTitle("§b解除", "", 0, 30, 10);
     }
 
     /**
