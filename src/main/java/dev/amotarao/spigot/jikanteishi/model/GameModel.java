@@ -50,6 +50,9 @@ public class GameModel {
     }
 
     public void startGame(Player player) {
+        if (!enabled) {
+            return;
+        }
         _startGame(player);
         plugin.getLogger().info("Start jikanteishi by " + player.getDisplayName());
     }
@@ -70,11 +73,17 @@ public class GameModel {
     }
 
     public void stopGame() {
+        if (enabled) {
+            return;
+        }
         _stopGame();
         plugin.getLogger().info("Stop jikanteishi");
     }
 
     public void stopGame(Player player) {
+        if (enabled) {
+            return;
+        }
         _stopGame();
         plugin.getLogger().info("Stop jikanteishi by " + player.getDisplayName());
     }
