@@ -44,14 +44,13 @@ public final class Jikanteishi extends JavaPlugin {
         spawnParticleForPlayers(world, world.getPlayers());
 
         enabled = true;
-        Bukkit.broadcastMessage("start");
+        player.sendTitle("§c§k＊§c 停止 §k＊", "", 0, 30, 10);
     }
 
     protected void stop() {
         resetIgnoringPlayer();
 
         enabled = false;
-        Bukkit.broadcastMessage("stop");
     }
 
     protected void stop(Player player) {
@@ -59,6 +58,7 @@ public final class Jikanteishi extends JavaPlugin {
         spawnParticleForPlayers(world, world.getPlayers());
 
         stop();
+        player.sendTitle("§b解除", "", 0, 30, 10);
     }
 
     /**
