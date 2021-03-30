@@ -81,12 +81,12 @@ public class PlayerEventListener implements Listener {
         if (Item.isStick(item)) {
             plugin.spawnParticle(player.getWorld(), targetPlayer);
 
-            boolean ignoring = plugin.isIgnoringPlayer(targetPlayer);
+            boolean ignoring = plugin.playerModel.isIgnoring(targetPlayer);
 
             if (!ignoring) {
-                plugin.addIgnoringPlayer(targetPlayer);
+                plugin.playerModel.addIgnoring(targetPlayer);
             } else {
-                plugin.removeIgnoringPlayer(targetPlayer);
+                plugin.playerModel.removeIgnoring(targetPlayer);
             }
         }
     }
@@ -97,7 +97,7 @@ public class PlayerEventListener implements Listener {
     @EventHandler
     private void onPlayerMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
-        if (plugin.enabled && !plugin.isIgnoringPlayer(player)) {
+        if (plugin.enabled && !plugin.playerModel.isIgnoring(player)) {
             e.setCancelled(true);
         }
     }
@@ -108,7 +108,7 @@ public class PlayerEventListener implements Listener {
     @EventHandler
     private void onPlayerToggleSneak(PlayerToggleSneakEvent e) {
         Player player = e.getPlayer();
-        if (plugin.enabled && !plugin.isIgnoringPlayer(player)) {
+        if (plugin.enabled && !plugin.playerModel.isIgnoring(player)) {
             e.setCancelled(true);
         }
     }
