@@ -79,9 +79,9 @@ public class PlayerEventListener implements Listener {
         Player targetPlayer = (Player) target;
 
         if (Item.isStick(item)) {
-            boolean ignoring = plugin.isIgnoringPlayer(targetPlayer);
+            plugin.spawnParticle(player.getWorld(), targetPlayer);
 
-            plugin.spawnParticleForPlayer(player.getWorld(), targetPlayer);
+            boolean ignoring = plugin.isIgnoringPlayer(targetPlayer);
 
             if (!ignoring) {
                 plugin.addIgnoringPlayer(targetPlayer);

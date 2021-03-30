@@ -34,54 +34,54 @@ public final class Jikanteishi extends JavaPlugin {
     @Override
     public void onDisable() {
         stop();
+        getLogger().log(Level.INFO, "Stop jikanteishi");
     }
 
     protected void start(Player player) {
         resetIgnoringPlayer();
         addIgnoringPlayer(player);
 
-        World world = player.getWorld();
-        spawnParticleForPlayers(world, world.getPlayers());
+        for (World world : Bukkit.getWorlds()) {
+            for (Player worldPlayer : world.getPlayers()) {
+                if (isIgnoringPlayer(worldPlayer)) {
+                    worldPlayer.sendTitle("§c§k＊§c 停止 §k＊", "", 0, 30, 10);
+                } else {
+                    spawnParticle(world, worldPlayer);
+                }
+            }
+        }
 
         enabled = true;
         getLogger().log(Level.INFO, "Start jikanteishi by " + player.getDisplayName());
-        player.sendTitle("§c§k＊§c 停止 §k＊", "", 0, 30, 10);
     }
 
     protected void stop() {
-        resetIgnoringPlayer();
+        for (World world : Bukkit.getWorlds()) {
+            for (Player worldPlayer : world.getPlayers()) {
+                if (isIgnoringPlayer(worldPlayer)) {
+                    worldPlayer.sendTitle("§b解除", "", 0, 30, 10);
+                } else {
+                    spawnParticle(world, worldPlayer);
+                }
+            }
+        }
 
+        resetIgnoringPlayer();
         enabled = false;
     }
 
     protected void stop(Player player) {
-        World world = player.getWorld();
-        spawnParticleForPlayers(world, world.getPlayers());
-
         stop();
         getLogger().log(Level.INFO, "Stop jikanteishi by " + player.getDisplayName());
-        player.sendTitle("§b解除", "", 0, 30, 10);
     }
 
     /**
      * パーティクル発生
      */
-    protected void spawnParticleForPlayer(World world, Player player) {
-        if (ignoringPlayers.indexOf(player.getUniqueId()) >= 0) {
-            return;
-        }
+    protected void spawnParticle(World world, Player player) {
         Location location = player.getLocation();
         location.setY(location.getY() + 1);
         world.spawnParticle(Particle.SPELL_INSTANT, location, 20, 0, 0, 0, 0.05);
-    }
-
-    /**
-     * 複数プレイヤーにパーティクル発生
-     */
-    protected void spawnParticleForPlayers(World world, List<Player> players) {
-        for (Player player : players) {
-            spawnParticleForPlayer(world, player);
-        }
     }
 
     /**
